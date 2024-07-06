@@ -5,6 +5,8 @@ export function up(knex) {
     table.string('description').notNullable();
     table.string('image').notNullable();
     table.string('image_alt_text').notNullable();
+    table.string('category_primary');
+    table.string('category_secondary');
     table.string('link').notNullable();
     table.timestamp('pub_date').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());

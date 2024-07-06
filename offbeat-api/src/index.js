@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import {getArticles, getSources} from "./database/utils.js";
+import {getArticles, getSources, getTopics} from "./database/utils.js";
 
 const app = express();
 app.use(cors());
@@ -14,8 +14,9 @@ app.get('/feed', async(req, res) => {
 })
 
 
-app.get('/topics', (req, res) => {
-
+app.get('/topics', async(req, res) => {
+    const topics = await getTopics();
+    res.status(200).send(topics);
 })
 
 app.get('/sources', async(req, res) => {
