@@ -1,9 +1,16 @@
+import Feed from './components/Feed/Feed.tsx';
+import Header from './components/Header/Header.tsx';
+import Sources from './components/Sources/Sources.tsx';
+import { useState } from 'react';
+
 function App() {
+  const [sourceId, setSourceId] = useState<number | undefined>(undefined);
+
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <Header />
+      <Sources setSourceId={setSourceId} />
+      <Feed sourceId={sourceId} />
     </>
   );
 }

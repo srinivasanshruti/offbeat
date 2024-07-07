@@ -8,8 +8,12 @@ const KnexConfig = {
 };
 const knex = initKnex(KnexConfig);
 
-export async function getArticles() {
-    return knex('articles');
+export async function getArticles(sourceId) {
+    if (sourceId) {
+        return knex('articles').where({'source_id': sourceId}).orderBy('pub_date', 'desc');
+    }
+    return knex('articles').orderBy('pub_date', 'desc');
+
 }
 
 export async function getSources() {
@@ -36,6 +40,7 @@ export async function getTopics() {
         .select('category')
         .sum('num_of_articles as num_of_articles')
         .from(inner)
+        .limit(10)
         .groupBy('category')
         .orderBy('num_of_articles', 'desc');
 

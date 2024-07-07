@@ -18,20 +18,39 @@ const KnexConfig = {
 const knex = initKnex(KnexConfig);
 
 async function insertIntoArticles(item) {
-  await knex('articles')
-    .insert({
-      title: item.title,
-      description: item.description,
-      image: item.imageUrl,
-      image_alt_text: item.imageAlt,
-      link: item.link,
-      pub_date: item.pubDate,
-      category_primary: item.categoryPrimary,
-      category_secondary: item.categorySecondary,
-      source_id: 2,
-    });
-}
 
+  const existing = await knex('articles').where({ link: item.link }).first();
+  if (existing) {
+    await knex('articles')
+      .where({ id: existing.id })
+      .update({
+        title: item.title,
+        description: item.description,
+        image: item.imageUrl,
+        image_alt_text: item.imageAlt,
+        link: item.link,
+        pub_date: item.pubDate,
+        category_primary: item.categoryPrimary,
+        category_secondary: item.categorySecondary,
+        updated_at: new Date(),
+        source_id: 1,
+      });
+  } else {
+    await knex('articles')
+      .insert({
+        title: item.title,
+        description: item.description,
+        image: item.imageUrl,
+        image_alt_text: item.imageAlt,
+        link: item.link,
+        pub_date: item.pubDate,
+        category_primary: item.categoryPrimary,
+        category_secondary: item.categorySecondary,
+        source_id: 1,
+      });
+  }
+
+}
 const parser = new Parser({
   customFields: {
     item: ['media:group', 'description'],

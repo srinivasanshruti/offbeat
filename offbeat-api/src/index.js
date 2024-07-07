@@ -8,8 +8,9 @@ app.use(express.json());
 
 const port = 8080;
 
-app.get('/feed', async(req, res) => {
-    const articles = await getArticles();
+app.get('/articles', async(req, res) => {
+    const sourceId = req.query['sourceId'];
+    const articles = await getArticles(sourceId);
     res.status(200).send(articles);
 })
 
