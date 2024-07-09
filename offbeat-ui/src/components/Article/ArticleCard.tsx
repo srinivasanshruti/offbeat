@@ -1,4 +1,5 @@
 type ArticleCardProps = {
+  id: number
   title: string;
   description?: string;
   image: string;
@@ -7,14 +8,13 @@ type ArticleCardProps = {
   date: string;
   sourceName?: string;
   categories: string[];
-  saveToRecent: (link: string, title: string) => void;
+  saveToRecent: (articleId: number) => void;
 }
 
-const ArticleCard = ({ title, image, imageAlt, link, date, categories, sourceName, saveToRecent }: ArticleCardProps) => {
+const ArticleCard = ({id, title, image, imageAlt, link, date, categories, sourceName, saveToRecent }: ArticleCardProps) => {
 
   const pubDate = new Intl.DateTimeFormat('en-GB', {
     dateStyle: 'full',
-
   }).format(new Date(date));
   const topicPills = [];
   if (categories[0] !== null) {
@@ -28,11 +28,11 @@ const ArticleCard = ({ title, image, imageAlt, link, date, categories, sourceNam
 
   return (
     <>
-      <a href={link} target="_blank" onClick={()=> saveToRecent(link, title)}>
+      <a href={link} target="_blank" onClick={()=> saveToRecent(id)}>
         <div className="max-w-sm h-[29rem] m-3 rounded-lg overflow-hidden shadow-lg relative article-card hover:text-indian-red">
           <img className="w-[24rem] h-[13.5rem] object-cover" src={image} alt={imageAlt} />
           <div className="px-6 py-4 left-0 bottom-0">
-            <div className="font-bold  text-xl mb-2 line-clamp-3">{title}
+            <div className="text-xl mb-2 line-clamp-3">{title}
             </div>
             <p className="text-gray-700 text-s">
               {pubDate}

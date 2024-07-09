@@ -1,29 +1,20 @@
-import Feed from './components/Feed/Feed.tsx';
-import Header from './components/Header/Header.tsx';
-import Sources from './components/Sources/Sources.tsx';
-import { useEffect, useState } from 'react';
-import { Api, SourceResponse } from './utils/Api.ts';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage.tsx';
+import RecentItemsPage from './pages/RecentItemsPage/RecentItemsPage.tsx';
 
 function App() {
-  const [sourceId, setSourceId] = useState<number | undefined>(undefined);
-  const [sources, setSources] = useState<SourceResponse[]>([]);
 
-  useEffect(() => {
-    const getSources = async () => {
-      const apiObject = new Api('http://localhost:8080');
-      const sources = await apiObject.getSources();
-      setSources(sources);
-    };
-    getSources();
-  }, []);
 
   return (
-    <>
-      <Header />
-      <Sources selectedSourceId={sourceId} setSelectedSourceId={setSourceId} sources={sources} />
-      <Feed sourceId={sourceId} sources={sources} />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage/>}></Route>
+        <Route path="/recent" element={<RecentItemsPage/>}></Route>
+      </Routes>
+
+    </BrowserRouter>
+
   );
 }
 

@@ -11,6 +11,7 @@ export type ArticleResponse = {
   link: string
   pub_date: string
   source_id: number
+  source_name: string
 }
 
 export type TopicResponse = {
@@ -36,12 +37,28 @@ export class Api {
     return await this.#get(`articles?sourceId=${sourceId}`);
   }
 
+  async getArticlesByIds(articleIds: number[]): Promise<ArticleResponse[]> {
+    console.log("body: ", articleIds);
+      return await this.#post("articles", articleIds);
+  }
+
   async getTopics(): Promise<TopicResponse[]> {
     return await this.#get("topics");
   }
 
   async getSources(): Promise<SourceResponse[]> {
     return await this.#get("sources");
+  }
+
+  async #post(endpoint: string, body: number[]) {
+    try {
+      const url = `${this.baseUrl}/${endpoint}`;
+      console.log(body)
+      const resp = await axios.post(url, body);
+      return resp.data;
+    } catch (error: any) {
+      console.log(error.message);
+    }
   }
 
   async #get(endpoint: string) {

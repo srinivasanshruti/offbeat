@@ -10,10 +10,23 @@ const knex = initKnex(KnexConfig);
 
 export async function getArticles(sourceId) {
     if (sourceId) {
-        return knex('articles').where({'source_id': sourceId}).orderBy('pub_date', 'desc');
+        return knex('articles as a')
+            .join("sources as s", "a.source_id", "s.id")
+            .select("a.id", "a.title", "a.description", "a.category_primary", "s.source_name", "a.category_secondary", "a.pub_date", "a.image", "a.image_alt_text", "a.link", "a.source_id")
+            .where({'source_id': sourceId}).orderBy('a.pub_date', 'desc');
     }
-    return knex('articles').orderBy('pub_date', 'desc');
+    return         knex('articles as a')
+        .join("sources as s", "a.source_id", "s.id")
+        .select("a.id", "a.title", "a.description", "a.category_primary", "s.source_name", "a.category_secondary", "a.pub_date", "a.image", "a.image_alt_text", "a.link", "a.source_id")
+        .orderBy('a.pub_date', 'desc');
 
+}
+
+export async function getArticlesByIds(articleIds) {
+    return knex('articles as a')
+        .join("sources as s", "a.source_id", "s.id")
+        .select("a.id", "a.title", "a.description", "a.category_primary", "s.source_name", "a.category_secondary", "a.pub_date", "a.image", "a.image_alt_text", "a.link", "a.source_id")
+        .whereIn('a.id', articleIds).orderBy('a.pub_date', 'desc')
 }
 
 export async function getSources() {
