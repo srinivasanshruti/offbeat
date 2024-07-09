@@ -1,9 +1,9 @@
+import logo from 'assets/wordmark3.png'
 const Header = () => {
   return (
-    <header className="place-content-center sticky flex flex-col m-auto w-fit">
-      <div className="text-2xl font-mono w-full text-center">Offbeat</div>
+    <header className="place-content-center sticky flex flex-col m-auto bg-indian-red">
+      <div className="grid place-content-center p-4"><img alt="Offbeat" src={logo}/></div>
 
-      <div className="text-sm font-mono w-full text-center">News you need to know</div>
     </header>
   );
 };

@@ -1,7 +1,10 @@
 import initKnex from 'knex';
 import Parser from 'rss-parser';
+import { stripHtml } from "string-strip-html";
 
-const topicsIgnoreList = ['news', 'investigation', 'in-depth', 'explainer', 'inside the narwhal'];
+const imgSrcRegExp =/^.*?<img .* src="(?<imageUrl>.*?)" .* \/>.*/m;
+
+const topicsIgnoreList = ['news'];
 
 const KnexConfig = {
   client: 'pg',
@@ -14,14 +17,13 @@ const KnexConfig = {
   },
 
 };
-
 const knex = initKnex(KnexConfig);
 
 async function insertIntoArticles(item) {
 
   const existing = await knex('articles').where({ link: item.link }).first();
   if (existing) {
-    await knex('articles')
+    const upQ = knex('articles')
       .where({ id: existing.id })
       .update({
         title: item.title,
@@ -32,8 +34,8 @@ async function insertIntoArticles(item) {
         pub_date: item.pubDate,
         category_primary: item.categoryPrimary,
         category_secondary: item.categorySecondary,
+        source_id: 5,
         updated_at: new Date(),
-        source_id: 2,
       });
   } else {
     await knex('articles')
@@ -46,45 +48,38 @@ async function insertIntoArticles(item) {
         pub_date: item.pubDate,
         category_primary: item.categoryPrimary,
         category_secondary: item.categorySecondary,
-        source_id: 2,
+        source_id: 5,
       });
   }
-
 }
+
 const parser = new Parser({
   customFields: {
-    item: ['media:group', 'description'],
+    item: ['description' ,'content:encoded'],
   },
 });
 
 (async () => {
 
-  const feed = await parser.parseURL('https://thenarwhal.ca/feed/');
+  const feed = await parser.parseURL('https://www.democracynow.org/democracynow.rss');
 
   let itemsToInsert = [];
 
   feed.items.forEach((item) => {
-    if (item.categories[0].trim().replace('\n', '').toLowerCase() === 'inside the narwhal') {
-      return
-    }
+    if(item['title'].toLowerCase().indexOf('headlines for ') > -1) { return }
     let itemToInsert = {};
 
     itemToInsert.title = item['title'];
     itemToInsert.link = item['link'];
-    itemToInsert.description = item['description'];
+    const imgSrc = item['content:encoded'].match(imgSrcRegExp).groups.imageUrl;
 
-    let categories = item.categories.map((category) => {
-      category = category.trim().replace('\n', '').toLowerCase();
-      if (topicsIgnoreList.indexOf(category) === -1)
-        return category;
-    });
-    categories = categories.filter((category) => category);
-    itemToInsert.categoryPrimary = categories[0] || 'Climate Change';
-    itemToInsert.categorySecondary = categories[1];
+    itemToInsert.imageUrl = imgSrc || '';
+    itemToInsert.description = stripHtml(item['description']).result.substring(0,255);
+    console.log(itemToInsert.description)
+    itemToInsert.categoryPrimary = 'international';
 
     itemToInsert.pubDate = item['pubDate'];
-    itemToInsert.imageUrl = '' || item['media:group']['media:content'][0]['$']['url'];
-    itemToInsert.imageAlt = item['title'] || item['media:group']['media:description'][0];
+    itemToInsert.imageAlt = item.title;
     itemsToInsert.push(itemToInsert);
   });
   for (const item of itemsToInsert) {

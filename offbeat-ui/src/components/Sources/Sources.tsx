@@ -1,32 +1,51 @@
-import { useEffect, useState } from 'react';
-import { Api, SourceResponse } from '../../utils/Api.ts';
+import { SourceResponse } from '../../utils/Api.ts';
 
 type SourcesProps = {
-  setSourceId: (sourceId?: number) => void;
+  selectedSourceId?: number
+  setSelectedSourceId: (sourceId?: number) => void;
+  sources: SourceResponse[];
 }
 
-const Sources = ({ setSourceId }: SourcesProps) => {
-  const [sources, setSources] = useState<SourceResponse[]>([]);
+type SourceProps = {
+  sourceId: number,
+  sourceName: string,
+  setSelectedSourceId: (sourceId?: number) => void
+}
 
-  useEffect(() => {
-    const getSources = async () => {
-      const apiObject = new Api('http://localhost:8080');
-      const sources = await apiObject.getSources();
-      setSources(sources);
-    };
-    getSources();
-  }, []);
+const SelectedSource = ({ sourceName, setSelectedSourceId }: SourceProps) => {
   return (
-    <div className="font-mono sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid m-auto w-fit">
+    <div onClick={() => setSelectedSourceId(undefined)} className="cursor-pointer">
+      <span className="inline-block bg-orange shadow rounded-full px-3 py-1 font-semibold text-gray-900 mr-2 mb-2 uppercase">
+        {sourceName}
+      </span>
+    </div>
+  );
+};
+
+const UnselectedSource = ({ sourceId, sourceName, setSelectedSourceId }: SourceProps) => {
+  return (
+    <div onClick={() => setSelectedSourceId(sourceId)} className="cursor-pointer">
+      <span className="inline-block bg-caledon shadow rounded-full px-3 py-1 font-semibold text-white mr-2 mb-2 uppercase">
+        {sourceName}
+      </span>
+    </div>
+  );
+};
+
+const Sources = ({ selectedSourceId, setSelectedSourceId, sources }: SourcesProps) => {
+  return (
+    <div className="w-full mt-4 flex items-center flex-col md:flex-row md:justify-center md:flex-wrap gap-2">
       {
         sources.map((source: SourceResponse) => {
-          return (
-            <div onClick={() => setSourceId(source.id)} key={source.id}>
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 uppercase">
-                {source.source_name}
-              </span>
-            </div>
-          );
+          if (source.id === selectedSourceId) {
+            return (
+              <SelectedSource key={source.id} sourceId={source.id} sourceName={source.source_name} setSelectedSourceId={setSelectedSourceId} />
+            );
+          } else {
+            return (
+              <UnselectedSource key={source.id} sourceId={source.id} sourceName={source.source_name} setSelectedSourceId={setSelectedSourceId} />
+            );
+          }
         })
       }
     </div>
