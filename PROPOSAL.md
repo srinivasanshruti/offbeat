@@ -16,8 +16,8 @@ This web app is for people interested in independent news and analysis. It's a s
 ### Features
 
 - As a user, I want to be able to find the latest news from independent sources
-- As a user, I want to be able to visit the source of the news
-- As a user, I want to be able to filter articles based on topics
+- As a user, I want to be able to save articles to read later
+- As a user, I want to be able to find articles that I viewed recently
 - As a user, I want to be able to filter articles based on news sources
 
 ## Implementation
@@ -85,5 +85,7 @@ Scope your project as a sprint. Break down the tasks that will need to be comple
 - Set up the RSS reader process to run on schedule
 
 ## Nice-to-haves
+- Workers run on a schedule
+- World mood meter plugin
 - Sentiment analysis - filter for bad/good news
 - Add additional news sources that may need web scraping
