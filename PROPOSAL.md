@@ -40,11 +40,13 @@ This web app is for people interested in independent news and analysis. It's a s
 
 ### APIs
 
-Open AI for sentiment analysis
+Nice to have - Open AI for sentiment analysis
 
 ### Sitemap
 
 - Landing page
+- Saved Articles
+- Recently Viewed
 
 ### Mockups
 
@@ -65,27 +67,26 @@ No Auth needed for this app
 
 ## Roadmap
 
-Scope your project as a sprint. Break down the tasks that will need to be completed and map out timeframes for implementation. Think about what you can reasonably complete before the due date. The more detail you provide, the easier it will be to build.
-### Iteration 1: 4 days
+### Iteration 1:
 
 #### Front-end
-- Create landing page mobile layout - logo, space for topic pills, a news card 
-- Read from database and populate topics and card
+- Create landing page mobile layout - logo, space for source pills, a news card 
+- Read from database and populate sources and card
+- Save preferences to local storage
 #### Back-end
 - Create database tables
 - Write the RSS reader that will populate the tables
 
-### Iteration 2: 2 days
+### Iteration 2:
 
 #### Front-end
 - Animate card flip that reveals article description or summary
 - Infinite scroll
-- Save preferences to local storage
+
 #### Back-end
 - Set up the RSS reader process to run on schedule
 
 ## Nice-to-haves
-- Workers run on a schedule
 - World mood meter plugin
 - Sentiment analysis - filter for bad/good news
 - Add additional news sources that may need web scraping
