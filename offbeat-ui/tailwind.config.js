@@ -19,6 +19,8 @@ export default {
         'peach': '#F4C095',
         'orange': '#fdd42f',
         'avocado': '#F44708',
+        'timber': '#DAD2D8',
+        'gunmetal': '#143642'
       },
     },
   },

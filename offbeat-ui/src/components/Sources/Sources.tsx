@@ -15,7 +15,7 @@ type SourceProps = {
 const SelectedSource = ({ sourceName, setSelectedSourceId }: SourceProps) => {
   return (
     <div onClick={() => setSelectedSourceId(undefined)} className="cursor-pointer">
-      <span className="inline-block bg-orange rounded-full px-3 py-1 font-semibold text-gray-900 mr-2 mb-2 uppercase">
+      <span className="inline-block bg-timber rounded-full px-3 py-1 font-semibold text-gray-900 mr-2 mb-2 uppercase">
         {sourceName}
       </span>
     </div>
@@ -25,7 +25,7 @@ const SelectedSource = ({ sourceName, setSelectedSourceId }: SourceProps) => {
 const UnselectedSource = ({ sourceId, sourceName, setSelectedSourceId }: SourceProps) => {
   return (
     <div onClick={() => setSelectedSourceId(sourceId)} className="cursor-pointer">
-      <span className="inline-block bg-caledon shadow-md shadow-gray-400 rounded-full px-3 py-1 font-semibold text-white mr-2 mb-2 uppercase">
+      <span className="inline-block bg-timber shadow-md shadow-gray-400 rounded-full px-3 py-1 text-gray-900 mr-2 mb-2 uppercase">
         {sourceName}
       </span>
     </div>

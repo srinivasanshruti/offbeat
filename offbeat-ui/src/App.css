@@ -207,3 +207,6 @@
   font-weight: 700;
   font-style: normal;
 }
+svg:hover {
+  fill: red;
+}

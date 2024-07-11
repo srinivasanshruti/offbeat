@@ -1,5 +1,5 @@
 function setLocalStorage(key: string, value: any) {
-  if(value.length > 10) {
+  if (value.length > 100) {
     value.shift();
   }
   localStorage.setItem(key, JSON.stringify(value));
@@ -17,4 +17,12 @@ export function getRecentItemsFromLocal(): null | number[] {
 
 export function setRecentItemsToLocal(articleIdList: number[]) {
   return setLocalStorage('recently_viewed', articleIdList);
+}
+
+export function getSavedItemsFromLocal(): null | number[] {
+  return getLocalStorage('saved_articles');
+}
+
+export function setSavedItemsToLocal(articleIdList: number[]) {
+  return setLocalStorage('saved_articles', articleIdList);
 }

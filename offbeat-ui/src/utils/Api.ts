@@ -38,7 +38,6 @@ export class Api {
   }
 
   async getArticlesByIds(articleIds: number[]): Promise<ArticleResponse[]> {
-    console.log("body: ", articleIds);
       return await this.#post("articles", articleIds);
   }
 
