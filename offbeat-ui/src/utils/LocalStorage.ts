@@ -1,17 +1,18 @@
-function setLocalStorage(key: string, value: any) {
+function setLocalStorage(key: string, value: number[]) {
   if (value.length > 100) {
     value.shift();
   }
+
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function getLocalStorage(key: string): any {
+function getLocalStorage(key: string): number[] | undefined {
   const value = localStorage.getItem(key);
   if (value) return JSON.parse(value);
-  else return null;
+  else return undefined;
 }
 
-export function getRecentItemsFromLocal(): null | number[] {
+export function getRecentItemsFromLocal(): number[] | undefined {
   return getLocalStorage('recently_viewed');
 }
 
@@ -19,7 +20,7 @@ export function setRecentItemsToLocal(articleIdList: number[]) {
   return setLocalStorage('recently_viewed', articleIdList);
 }
 
-export function getSavedItemsFromLocal(): null | number[] {
+export function getSavedItemsFromLocal(): number[] | undefined {
   return getLocalStorage('saved_articles');
 }
 

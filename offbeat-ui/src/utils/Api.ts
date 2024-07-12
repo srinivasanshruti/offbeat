@@ -27,32 +27,32 @@ export type SourceResponse = {
 }
 
 export class Api {
+
   baseUrl: string;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
-  async getArticles(sourceId?: number | string): Promise<ArticleResponse[]> {
-    sourceId = sourceId || '';
-    return await this.#get(`articles?sourceId=${sourceId}`);
+
+  async getArticles(sourceId?: number): Promise<ArticleResponse[]> {
+    return await this.#get(`articles?sourceId=${sourceId || ''}`);
   }
 
   async getArticlesByIds(articleIds: number[]): Promise<ArticleResponse[]> {
-      return await this.#post("articles", articleIds);
+    return await this.#post('articles', articleIds);
   }
 
   async getTopics(): Promise<TopicResponse[]> {
-    return await this.#get("topics");
+    return await this.#get('topics');
   }
 
   async getSources(): Promise<SourceResponse[]> {
-    return await this.#get("sources");
+    return await this.#get('sources');
   }
 
   async #post(endpoint: string, body: number[]) {
     try {
       const url = `${this.baseUrl}/${endpoint}`;
-      console.log(body)
       const resp = await axios.post(url, body);
       return resp.data;
     } catch (error: any) {
