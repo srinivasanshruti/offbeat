@@ -24,7 +24,8 @@ async function insertIntoArticles(item) {
 
   const existing = await knex('articles').where({ link: item.link }).first();
   if (existing) {
-    const upQ = knex('articles')
+
+    await knex('articles')
       .where({ id: existing.id })
       .update({
         title: item.title,
@@ -76,7 +77,8 @@ const parser = new Parser({
 
     itemToInsert.imageUrl = imgSrc || '';
     let desc =  item['description'];
-    desc = desc.indexOf('&#8230;')===-1? desc.substring(0, desc.indexOf('.') + 1):desc.substring(0, desc.indexOf('&#8230;')+7)
+
+    desc = desc.indexOf('&#8230;')===-1? desc.substring(0, desc.indexOf('.') + 1):desc.substring(0, desc.indexOf('&#8230;')-7) + '...'
 
     itemToInsert.description = desc;
     if(item.categories) {

@@ -22,7 +22,7 @@ async function insertIntoArticles(item) {
 
   const existing = await knex('articles').where({ link: item.link }).first();
   if (existing) {
-    const upQ = knex('articles')
+    await knex('articles')
       .where({ id: existing.id })
       .update({
         title: item.title,
