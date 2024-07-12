@@ -1,4 +1,4 @@
-### OffBeat
+# OffBeat
 OffBeat is a news aggregator that brings in news articles from independent news websites. It requires no sign-ups or account creation. Simply visit the website daily to get your news!
 
 ## Purpose
