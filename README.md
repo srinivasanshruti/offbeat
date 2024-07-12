@@ -8,3 +8,6 @@ There are no ads on the website, and clicking on articles takes you to the sourc
 
 ## Tech Stack
 The website was built using React with TypeScript and has a back-end API that manages data requests from the front-end. The API reads from a Postgres database that is populated by worker scripts that fetch news from the various sources.
+
+## Usage
+Run each of the worker scripts in offbeat-worker/src to populate the database.
