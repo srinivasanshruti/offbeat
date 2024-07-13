@@ -21,7 +21,6 @@ const RecentItemsPage = () => {
   useEffect(() => {
     const fetchRecentArticles = async () => {
       if (recentItems && recentItems.length > 0) {
-        console.log('Fetching: ', recentItems);
         const apiObject = new Api('http://localhost:8080');
         const recentArticles = await apiObject.getArticlesByIds(recentItems);
         setRecentArticles(recentArticles);

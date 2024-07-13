@@ -16,7 +16,6 @@ app.get('/articles', async(req, res) => {
 
 app.post('/articles', async(req, res) => {
     const articleIds = req.body;
-    console.log("articleIds: ",req.body)
     if(articleIds === undefined || articleIds.length === 0) {
         res.status(400);
         return;

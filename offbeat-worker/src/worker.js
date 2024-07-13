@@ -51,7 +51,6 @@ const KnexConfig = {
 const knex = initKnex(KnexConfig);
 
 async function insertIntoArticles(item) {
-  console.log("Inserting: ", item);
   const existing = await knex('articles').where({ link: item.link }).first();
   if (existing) {
     await knex('articles')
