@@ -75,7 +75,7 @@ No Auth needed for this app
 
 #### Front-end
 - Infinite scroll
-- 
+
 #### Back-end
 - Set up the RSS reader process to run on schedule
  
