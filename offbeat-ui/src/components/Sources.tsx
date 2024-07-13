@@ -34,7 +34,7 @@ const UnselectedSource = ({ sourceId, sourceName, setSelectedSourceId }: SourceP
 
 const Sources = ({ selectedSourceId, setSelectedSourceId, sources }: SourcesProps) => {
   return (
-    <div className="w-full m-auto pt-10 pb-10 px-2 overflow-x-auto text-center whitespace-nowrap space-x-2">
+    <div className="w-full m-auto pt-11 pb-11 px-2 overflow-x-auto text-center whitespace-nowrap space-x-2">
       {
         sources.map((source: SourceResponse) => {
           if (source.id === selectedSourceId) {
