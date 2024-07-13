@@ -9,5 +9,38 @@ There are no ads on the website, and clicking on articles takes you to the sourc
 ## Tech Stack
 The website was built using React with TypeScript and has a back-end API that manages data requests from the front-end. The API reads from a Postgres database that is populated by worker scripts that fetch news from the various sources.
 
-## Usage
-Run each of the worker scripts in offbeat-worker/src to populate the database.
+## Installation
+There are 3 sub-projects:
+### offbeat-ui
+This is the React front-end. Install using npm:
+```
+cd offbeat-ui
+npm i
+```
+### offbeat-api
+This is the API. Install using npm:
+```
+cd ...
+cd offbeat-api
+npm i
+```
+### offbeat-worker
+This is the worker that populates the database with articles. Install knex using npm:
+```
+cd ...
+cd offbeat-worker
+npm i knex
+```
+## Running the Application
+```
+cd offbeat-ui
+npm run dev
+
+cd ...
+cd offbeat-api
+node src/index.js
+
+cd ...
+cd offbeat-worker
+node src/worker.js
+```
