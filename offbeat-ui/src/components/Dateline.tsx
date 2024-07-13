@@ -10,15 +10,15 @@ const Dateline = () => {
   dateParts.forEach(part => dateDict[part.type] = part.value);
 
   return (
-    <div className="container flex justify-between m-auto pt-3.5 pb-3 px-2 items-center bg-white z-50 border-b-[1px] border-b-timber">
+    <div className="container flex justify-between m-auto pt-3.5 pb-3 px-2 items-center bg-white z-50 border-b-[1px] text-gunmetal border-b-timber text-[0.9rem] md:text-lg">
       { dateDict['weekday'] }, { dateDict['month'] } { dateDict['day'] } { dateDict['year'] }
       <nav className="flex items-center w-1/2 justify-end gap-3 md:gap-10">
         <NavLink to="/saved"
-                 className="flex-row flex justify-between text-caledon font-semibold text-lg items-center hover:border-b-caledon hover:border-b-2">
+                 className="flex-row flex justify-between text-caledon font-semibold text-[0.9rem] md:text-lg items-center hover:border-b-caledon hover:border-b-2">
           <img src={ savedImg } alt="star icon" className="h-[22px]" />Saved
         </NavLink>
         <NavLink to="/recent"
-                 className="flex-row flex justify-between text-caledon text-lg font-semibold items-center gap-1 hover:border-b-caledon hover:border-b-2">
+                 className="flex-row flex justify-between text-caledon text-[0.9rem] md:text-lg font-semibold items-center gap-1 hover:border-b-caledon hover:border-b-2">
           <img src={ recentImg } alt="Recent items" />Recent
         </NavLink>
       </nav>
