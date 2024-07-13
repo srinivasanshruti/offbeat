@@ -25,26 +25,31 @@ cd offbeat-api
 npm i
 ```
 ### offbeat-worker
-This is the worker that populates the database with articles. Install knex and pg (to use knex with Postgres):
+This is the worker that populates the database with articles. Install Postgres and create a user and database:
+- Create a user called offbeat with the same password
+- Create a database called offbeat with offbeat user as the owner
+
+Then install knex, and run the migrations and seeds:
 ```
 cd ..
 cd offbeat-worker
+npm i
 npm install knex -g
 knex init
-npm install pg
 knex migrate:latest
 knex seed:run
 ```
 ## Running the Application
 ```
-cd offbeat-ui
-npm run dev
+cd ..
+cd offbeat-worker
+node src/worker.js
 
 cd ..
 cd offbeat-api
 node src/index.js
 
-cd ..
-cd offbeat-worker
-node src/worker.js
+cd offbeat-ui
+npm run dev
+
 ```
