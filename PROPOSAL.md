@@ -40,7 +40,7 @@ This web app is for people interested in independent news and analysis. It's a s
 
 ### APIs
 
-Nice to have - Open AI for sentiment analysis
+None
 
 ### Sitemap
 
@@ -53,14 +53,6 @@ Nice to have - Open AI for sentiment analysis
 #### Landing Page
 ![](docs/Landing.png)
 
-### Data
-
-
-
-### Endpoints
-
-
-
 ### Auth
 
 No Auth needed for this app
@@ -70,9 +62,11 @@ No Auth needed for this app
 ### Iteration 1:
 
 #### Front-end
-- Create landing page mobile layout - logo, space for source pills, a news card 
+- Create landing page layout - logo, space for source pills, a news card 
 - Read from database and populate sources and card
 - Save preferences to local storage
+- Animate card flip that reveals article description or summary
+
 #### Back-end
 - Create database tables
 - Write the RSS reader that will populate the tables
@@ -80,13 +74,11 @@ No Auth needed for this app
 ### Iteration 2:
 
 #### Front-end
-- Animate card flip that reveals article description or summary
 - Infinite scroll
-
+- 
 #### Back-end
 - Set up the RSS reader process to run on schedule
-
+ 
 ## Nice-to-haves
 - World mood meter plugin
-- Sentiment analysis - filter for bad/good news
 - Add additional news sources that may need web scraping
