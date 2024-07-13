@@ -10,7 +10,7 @@ There are no ads on the website, and clicking on articles takes you to the sourc
 The website was built using React with TypeScript and has a back-end API that manages data requests from the front-end. The API reads from a Postgres database that is populated by worker scripts that fetch news from the various sources.
 
 ## Installation
-There are 3 sub-projects:
+There are 3 sub-projects. Each have their own requirements as listed below. The application requires Postgres to be installed:
 ### offbeat-ui
 This is the React front-end. Install using npm:
 ```
@@ -20,27 +20,31 @@ npm i
 ### offbeat-api
 This is the API. Install using npm:
 ```
-cd ...
+cd ..
 cd offbeat-api
 npm i
 ```
 ### offbeat-worker
-This is the worker that populates the database with articles. Install knex using npm:
+This is the worker that populates the database with articles. Install knex and pg (to use knex with Postgres):
 ```
-cd ...
+cd ..
 cd offbeat-worker
-npm i knex
+npm install knex -g
+knex init
+npm install pg
+knex migrate:latest
+knex seed:run
 ```
 ## Running the Application
 ```
 cd offbeat-ui
 npm run dev
 
-cd ...
+cd ..
 cd offbeat-api
 node src/index.js
 
-cd ...
+cd ..
 cd offbeat-worker
 node src/worker.js
 ```
