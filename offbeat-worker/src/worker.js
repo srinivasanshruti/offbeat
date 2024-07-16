@@ -89,100 +89,106 @@ async function insertIntoArticles(item) {
       customFields: { item: source.customFields }
     });
 
-    const feed = await parser.parseURL(source.url);
-
     let itemsToInsert = [];
 
-    feed.items.forEach((item) => {
-      let itemToInsert = {};
-      itemToInsert.sourceId = source.id;
-      itemToInsert.title = item['title'];
-      itemToInsert.link = item['link'];
-      itemToInsert.pubDate = item['pubDate'];
-      let categories = item['categories'];
-      if (item['title'].toLowerCase().indexOf('headlines for ') > -1) {
-        return
-      }
+    let feed;
+    try {
+      feed = await parser.parseURL(source.url);
+    } catch (e) {
+      console.log(e);
+      continue;
+    }
+    if (feed) {
+      feed.items.forEach((item) => {
+        let itemToInsert = {};
+        itemToInsert.sourceId = source.id;
+        itemToInsert.title = item['title'];
+        itemToInsert.link = item['link'];
+        itemToInsert.pubDate = item['pubDate'];
+        let categories = item['categories'];
+        if (item['title'].toLowerCase().indexOf('headlines for ') > -1) {
+          return
+        }
 
-      switch(source.name) {
-        case 'theBreach':
-          itemToInsert.imageUrl = item.description.match(source.imgSrcRegExp).groups.imageUrl;
-          itemToInsert.description = item.description.match(source.descRegExp).groups.description || item.title;
+        switch (source.name) {
+          case 'theBreach':
+            itemToInsert.imageUrl = item.description.match(source.imgSrcRegExp).groups.imageUrl;
+            itemToInsert.description = item.description.match(source.descRegExp).groups.description || item.title;
 
-          categories = categories.map((category) => {
-            category = category.trim().replace('\n', '').toLowerCase();
-            if (source.ignoreTopics.indexOf(category) === -1)
-              return category;
-          });
-          categories = categories.filter((category) => category);
-
-          itemToInsert.categoryPrimary = categories[0];
-          itemToInsert.categorySecondary = categories[1];
-          itemToInsert.imageAlt = item.title;
-          break;
-
-        case 'narwhal':
-          if (item.categories[0].trim().replace('\n', '').toLowerCase() === 'inside the narwhal') {
-            break;
-          }
-          itemToInsert.description = item['description'];
-          categories = categories.map((category) => {
-            category = category.trim().replace('\n', '').toLowerCase();
-            if (source.ignoreTopics.indexOf(category) === -1)
-              return category;
-          });
-          categories = categories.filter((category) => category);
-          itemToInsert.categoryPrimary = categories[0] || 'Climate Change';
-          itemToInsert.categorySecondary = categories[1];
-
-          itemToInsert.imageUrl = '' || item['media:group']['media:content'][0]['$']['url'];
-          itemToInsert.imageAlt = item['title'] || item['media:group']['media:description'][0];
-          break;
-
-        case 'socialistProject':
-          itemToInsert.imageUrl = item['media:content']['$']['url'] || '';
-          let desc = item['description'];
-          desc = desc.indexOf('&#8230;')===-1? desc.substring(0, desc.indexOf('.') + 1):desc.substring(0, desc.indexOf('&#8230;')-7) + '...'
-          itemToInsert.description = desc.indexOf('&#8230;') === -1 ? desc : desc.replace('&#8230;', '');
-          if (categories) {
             categories = categories.map((category) => {
               category = category.trim().replace('\n', '').toLowerCase();
               if (source.ignoreTopics.indexOf(category) === -1)
                 return category;
             });
             categories = categories.filter((category) => category);
+
             itemToInsert.categoryPrimary = categories[0];
-            itemToInsert.categorySecondary =  categories[1];
-          }
-          else {
+            itemToInsert.categorySecondary = categories[1];
+            itemToInsert.imageAlt = item.title;
+            break;
+
+          case 'narwhal':
+            if (item.categories[0].trim().replace('\n', '').toLowerCase() === 'inside the narwhal') {
+              break;
+            }
+            itemToInsert.description = item['description'];
+            categories = categories.map((category) => {
+              category = category.trim().replace('\n', '').toLowerCase();
+              if (source.ignoreTopics.indexOf(category) === -1)
+                return category;
+            });
+            categories = categories.filter((category) => category);
+            itemToInsert.categoryPrimary = categories[0] || 'Climate Change';
+            itemToInsert.categorySecondary = categories[1];
+
+            itemToInsert.imageUrl = '' || item['media:group']['media:content'][0]['$']['url'];
+            itemToInsert.imageAlt = item['title'] || item['media:group']['media:description'][0];
+            break;
+
+          case 'socialistProject':
+            itemToInsert.imageUrl = item['media:content']['$']['url'] || '';
+            let desc = item['description'];
+            desc = desc.indexOf('&#8230;') === -1 ? desc.substring(0, desc.indexOf('.') + 1) : desc.substring(0, desc.indexOf('&#8230;') - 7) + '...'
+            itemToInsert.description = desc.indexOf('&#8230;') === -1 ? desc : desc.replace('&#8230;', '');
+            if (categories) {
+              categories = categories.map((category) => {
+                category = category.trim().replace('\n', '').toLowerCase();
+                if (source.ignoreTopics.indexOf(category) === -1)
+                  return category;
+              });
+              categories = categories.filter((category) => category);
+              itemToInsert.categoryPrimary = categories[0];
+              itemToInsert.categorySecondary = categories[1];
+            } else {
+              itemToInsert.categoryPrimary = null;
+              itemToInsert.categorySecondary = null;
+            }
+            itemToInsert.imageAlt = item.title;
+            break;
+
+          case 'democracyNow':
+
+            itemToInsert.imageUrl = item['content:encoded'].match(source.imgSrcRegExp).groups.imageUrl || '';
+            itemToInsert.description = stripHtml(item['description']).result.substring(0, 255);
+            itemToInsert.categoryPrimary = 'international';
+            itemToInsert.imageAlt = item.title;
+            break;
+
+          case 'fixTheNews':
+            itemToInsert.imageUrl = item['media:content']['$']['url'] || '';
+            itemToInsert.description = item['description'];
             itemToInsert.categoryPrimary = null;
-            itemToInsert.categorySecondary =  null;
-          }
-          itemToInsert.imageAlt = item.title;
-          break;
+            itemToInsert.categorySecondary = null;
+            itemToInsert.imageAlt = item.title;
+            break;
+        }
 
-        case 'democracyNow':
+        itemsToInsert.push(itemToInsert);
+      });
 
-          itemToInsert.imageUrl = item['content:encoded'].match(source.imgSrcRegExp).groups.imageUrl || '';
-          itemToInsert.description = stripHtml(item['description']).result.substring(0, 255);
-          itemToInsert.categoryPrimary = 'international';
-          itemToInsert.imageAlt = item.title;
-          break;
-
-        case 'fixTheNews':
-          itemToInsert.imageUrl = item['media:content']['$']['url'] || '';
-          itemToInsert.description = item['description'];
-          itemToInsert.categoryPrimary = null;
-          itemToInsert.categorySecondary = null;
-          itemToInsert.imageAlt = item.title;
-          break;
+      for (const itemToInsert of itemsToInsert) {
+        await insertIntoArticles(itemToInsert);
       }
-
-      itemsToInsert.push(itemToInsert);
-    });
-
-    for (const itemToInsert of itemsToInsert) {
-      await insertIntoArticles(itemToInsert);
     }
   }
   process.exit(0);
