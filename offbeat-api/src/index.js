@@ -1,12 +1,17 @@
 import express from "express";
 import cors from "cors";
-import {getArticles, getArticlesByIds, getSources, getTopics} from "./database/utils.js";
+import {getArticles, getArticlesByIds, getSources, getTopics} from "./database/reader.js";
+import {readRSSFeeds} from "./worker.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const port = 8080;
+
+await readRSSFeeds();
+
+setInterval(readRSSFeeds, 24 * 60 * 60 * 1000);
 
 app.get('/articles', async(req, res) => {
     const sourceId = req.query['sourceId'];

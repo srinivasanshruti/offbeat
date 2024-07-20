@@ -74,8 +74,7 @@ const ArticleCard = (
     <>
       <div className="max-w-sm h-[28rem] md:h-[29rem] rounded-lg overflow-hidden shadow-lg article-card relative">
         <div className="group h-full w-[18rem] md:w-[22rem]">
-          <div
-            className="relative h-full w-full transition-all rounded-lg  duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+          <div className="relative h-full w-full transition-all rounded-lg duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
             <div className="absolute inset-0">
               <a href={ link } target="_blank" onClick={ () => addToRecent(id) }>
                 <img className="w-[24rem] h-[13.5rem] object-cover" src={ image } alt={ imageAlt } />
