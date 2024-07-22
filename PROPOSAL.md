@@ -16,8 +16,8 @@ This web app is for people interested in independent news and analysis. It's a s
 ### Features
 
 - As a user, I want to be able to find the latest news from independent sources
-- As a user, I want to be able to visit the source of the news
-- As a user, I want to be able to filter articles based on topics
+- As a user, I want to be able to save articles to read later
+- As a user, I want to be able to find articles that I viewed recently
 - As a user, I want to be able to filter articles based on news sources
 
 ## Implementation
@@ -40,24 +40,18 @@ This web app is for people interested in independent news and analysis. It's a s
 
 ### APIs
 
-Open AI for sentiment analysis
+None
 
 ### Sitemap
 
 - Landing page
+- Saved Articles
+- Recently Viewed
 
 ### Mockups
 
 #### Landing Page
 ![](docs/Landing.png)
-
-### Data
-
-
-
-### Endpoints
-
-
 
 ### Auth
 
@@ -65,25 +59,26 @@ No Auth needed for this app
 
 ## Roadmap
 
-Scope your project as a sprint. Break down the tasks that will need to be completed and map out timeframes for implementation. Think about what you can reasonably complete before the due date. The more detail you provide, the easier it will be to build.
-### Iteration 1: 4 days
+### Iteration 1:
 
 #### Front-end
-- Create landing page mobile layout - logo, space for topic pills, a news card 
-- Read from database and populate topics and card
+- Create landing page layout - logo, space for source pills, a news card 
+- Read from database and populate sources and card
+- Save preferences to local storage
+- Animate card flip that reveals article description or summary
+
 #### Back-end
 - Create database tables
 - Write the RSS reader that will populate the tables
 
-### Iteration 2: 2 days
+### Iteration 2:
 
 #### Front-end
-- Animate card flip that reveals article description or summary
 - Infinite scroll
-- Save preferences to local storage
+
 #### Back-end
 - Set up the RSS reader process to run on schedule
-
+ 
 ## Nice-to-haves
-- Sentiment analysis - filter for bad/good news
+- World mood meter plugin
 - Add additional news sources that may need web scraping
