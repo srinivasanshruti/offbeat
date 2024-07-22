@@ -1,6 +1,7 @@
 import initKnex from 'knex';
 import Parser from 'rss-parser';
 import {stripHtml} from 'string-strip-html';
+import "dotenv/config";
 
 const sources = [
   {
@@ -39,10 +40,10 @@ const sources = [
 const KnexConfig = {
   client: 'pg',
   connection: {
-    host: '127.0.0.1',
-    user: 'offbeat',
-    password: 'offbeat',
-    database: 'offbeat',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
     charset: 'utf8',
   },
 
