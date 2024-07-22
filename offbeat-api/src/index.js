@@ -2,12 +2,13 @@ import express from "express";
 import cors from "cors";
 import {getArticles, getArticlesByIds, getSources, getTopics} from "./database/reader.js";
 import {readRSSFeeds} from "./worker.js";
+import "dotenv/config";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 await readRSSFeeds();
 
