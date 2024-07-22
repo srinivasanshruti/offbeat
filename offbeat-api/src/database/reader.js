@@ -8,7 +8,12 @@ const KnexConfig = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         charset: 'utf8',
-        ssl: process.env.DB_SSL,
+        dialectOptions: {
+            ssl: {
+                require: process.env.DB_SSL,
+                rejectUnauthorized: false
+            }
+        },
     },
 
 };

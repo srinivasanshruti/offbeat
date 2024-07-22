@@ -45,7 +45,12 @@ const KnexConfig = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     charset: 'utf8',
-    ssl: process.env.DB_SSL,
+    dialectOptions: {
+      ssl: {
+        require: process.env.DB_SSL, // This will help you. But you will see nwe error
+        rejectUnauthorized: false // This line will fix new error
+      }
+    },
   },
 
 };
